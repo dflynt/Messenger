@@ -6,7 +6,7 @@ public class Client {
 
 	public static void main(String[] args) throws IOException {
 
-		String servName = "71.76.242.130";
+		String servName = "localhost";
 		int portNum = 3033;
 		try {
 			System.out.println("Attempting to connect to server . . .");
