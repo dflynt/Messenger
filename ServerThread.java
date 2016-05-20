@@ -24,34 +24,34 @@ public class ServerThread extends Thread {
 		} catch (IOException e) {
 			System.out.println("Input/Output data stream unavailable.");
 		}
-		
-		
-		server.addClient(this);
+
 		String receiver = "";
 		try {
 			clientName = input.readUTF();
+			server.addClient(this);
 			hasName = true;
 			while (hasName) {
 				lineInput = input.readUTF();
-
 				switch (lineInput) {
-
 				case "/list":
 					output.writeUTF("Number of Clients " + server.getNumClients());
 					ArrayList<ServerThread> clients = server.getClients();
-					for(ServerThread thread : clients)
-					{
-						output.writeUTF(thread.getClientName());
-						output.flush();
+					for (ServerThread thread : clients) {
+						if(thread.isAlive())
+							{
+								output.writeUTF(thread.getClientName());
+								output.flush();
+							}	
 					}
 					break;
-					
+
 				case "/myname":
 					output.writeUTF(clientName);
 					output.flush();
 					break;
 				case "/disconnect":
 					try {
+						server.removeClient(this);
 						output.writeUTF("Connection Disconnected.");
 						output.flush();
 						socket.close();
@@ -63,14 +63,19 @@ public class ServerThread extends Thread {
 				case "/newchat":
 					output.writeUTF("Enter the user: ");
 					receiver = input.readUTF();
-					//implement checking to see if the user is connected
+					if (!server.containsClient(receiver)) {
+						output.writeUTF("User is not connected to the server!");
+					}
 					break;
 				default:
 					sendMessage(lineInput, receiver);
 				}
 			}
 		} catch (IOException e) {
-			System.out.println("Exception");
+			if(socket.isClosed())
+			{
+				System.out.println(clientName + " has disconnected from the server.");
+			}
 		}
 	}
 

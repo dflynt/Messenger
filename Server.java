@@ -36,6 +36,7 @@ public class Server {
 
 	public synchronized void addClient(ServerThread thread) {
 		clients.add(thread);
+		System.out.println(thread.getClientName() + " has joined the server.");
 	}
 
 	public int getNumClients() {
@@ -45,5 +46,21 @@ public class Server {
 	public ArrayList<ServerThread> getClients() throws IOException {
 		return clients;
 	}
-	//implement method to see if username entered from /newchat command is connected to the server
+	
+	public boolean containsClient(String name)
+	{
+		boolean contains = false;
+		for(ServerThread thread : clients)
+		{
+			if(thread.getClientName().equals(name))
+			{
+				contains = true;
+			}
+		}
+		return contains;
+	}
+	public void removeClient(ServerThread thread)
+	{
+		clients.remove(thread);
+	}
 }

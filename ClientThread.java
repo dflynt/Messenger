@@ -22,8 +22,10 @@ public class ClientThread extends Thread {
 				client.listener(input);
 			}
 		} catch (IOException e) {
-			//client has disconned because of /disconnect command or server turned off
-			System.out.println("Client Thread Exception");
+			if(!sock.isConnected())
+			{
+				client.listener("Connection to server has been lost.");
+			}
 		}
 	}
 }

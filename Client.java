@@ -6,7 +6,7 @@ public class Client {
 
 	public static void main(String[] args) throws IOException {
 
-		String servName = "localhost";
+		String servName = "71.76.242.130";
 		int portNum = 3033;
 		try {
 			System.out.println("Attempting to connect to server . . .");
@@ -17,7 +17,7 @@ public class Client {
 		Client client = new Client();
 		new ClientThread(client, sock).start();
 		DataOutputStream dout = new DataOutputStream(sock.getOutputStream());
-        	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
 		//System.out.println("Connected to " + servName);
 		//System.out.println("Port Number: " + portNum);
@@ -47,7 +47,7 @@ public class Client {
 			dout.flush();
 		}
 		} catch (IOException e) {
-			System.out.println("Unable to connect.");
+			System.out.println("Not connected to the server.");
 			System.exit(0);
 		}
 	}
@@ -55,7 +55,7 @@ public class Client {
 	{
 		if(message.equals("Connection Disrupted"))
 		{
-			System.exit(1);
+			System.exit(0);
 		}
 		System.out.println(message);
 	}
