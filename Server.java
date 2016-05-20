@@ -27,7 +27,6 @@ public class Server {
 			clients.get(0).printMessage("You're the only one connected.");
 			return;
 		}
-		System.out.println("Hey we skipped over the if statement brody");
 		for (ServerThread thread : clients) {
 			if (thread.getClientName().equals(client)) {
 				thread.printMessage(message);
