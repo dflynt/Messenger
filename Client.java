@@ -11,7 +11,7 @@ public class Client {
 		try {
 			System.out.println("Attempting to connect to server . . .");
 			Socket sock = new Socket(servName, portNum);
-			System.out.println("Successfully Connected.");
+			System.out.println("Successfully Connected  .");
 		
 		//creates a new client thread for listening for input
 		Client client = new Client();
