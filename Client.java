@@ -17,7 +17,7 @@ public class Client {
 		Client client = new Client();
 		new ClientThread(client, sock).start();
 		DataOutputStream dout = new DataOutputStream(sock.getOutputStream());
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
 		//System.out.println("Connected to " + servName);
 		//System.out.println("Port Number: " + portNum);
