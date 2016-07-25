@@ -12,14 +12,14 @@ import javax.swing.JTextField;
 public class LoginWindow extends Frame implements WindowListener, ActionListener {
 
 	String userName;
-
+	JFrame loginFrame;
 	public static void main(String[] args) {
 		LoginWindow loginWindow = new LoginWindow();
 		loginWindow.setSize(500, 500);
 	}
 
 	public LoginWindow() {
-		JFrame loginFrame = new JFrame("Login");
+		loginFrame = new JFrame("Login");
 		JPanel loginPane = new JPanel(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 
@@ -54,52 +54,29 @@ public class LoginWindow extends Frame implements WindowListener, ActionListener
 	public void actionPerformed(ActionEvent e) {
 		if(getUserName().trim() != null )
 		{	
-			this.setVisible(false);
-			ChatWindow window = new ChatWindow(getUserName().trim());
-			
+			loginFrame.dispose();
+			new Client(getUserName());	
 		}
 	}
 
 	@Override
-	public void windowOpened(WindowEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
+	public void windowOpened(WindowEvent e) {}
 	@Override
 	public void windowClosing(WindowEvent e) {
 		System.exit(0);
 	}
-
 	@Override
 	public void windowClosed(WindowEvent e) {
-		// TODO Auto-generated method stub
-
+		System.exit(0);
 	}
-
 	@Override
-	public void windowIconified(WindowEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
+	public void windowIconified(WindowEvent e) {}
 	@Override
-	public void windowDeiconified(WindowEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
+	public void windowDeiconified(WindowEvent e) {}
 	@Override
-	public void windowActivated(WindowEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
+	public void windowActivated(WindowEvent e) {}
 	@Override
-	public void windowDeactivated(WindowEvent e) {
-		// TODO Auto-generated method stub
-
-	}
+	public void windowDeactivated(WindowEvent e) {}
 
 	public void setUserName(String name) {
 		userName = name;
