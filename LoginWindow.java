@@ -9,7 +9,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class LoginWindow extends Frame implements WindowListener, ActionListener {
+
+public class LoginWindow extends Frame implements WindowListener {
 
 	String userName;
 	JFrame loginFrame;
@@ -31,38 +32,43 @@ public class LoginWindow extends Frame implements WindowListener, ActionListener
 
 		JTextField userTF = new JTextField();
 		userTF.setEditable(true);
+		userTF.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e)
+			{
+				String userName = userTF.getText();
+				loginFrame.dispose();
+				new Client(userName);
+			}
+		});
 		c.ipadx = 100;
 		c.gridx = 1;
 		c.gridy = 0;
-		String userName = userTF.getText();
-		setUserName(userName);
 		loginPane.add(userTF, c);
 
 		JButton loginButton = new JButton("Login");
-		loginButton.addActionListener(this);
+		loginButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e)
+			{
+				String userName = userTF.getText();
+				loginFrame.dispose();
+				new Client(userName);
+			}
+		});
 		c.ipadx = 0;
 		c.gridy = 1;
 		loginPane.add(loginButton, c);
 		
+		
 		loginFrame.setSize(250,300);
 		loginFrame.add(loginPane);
-		loginFrame.setVisible(true);
-		
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if(getUserName().trim() != null )
-		{	
-			loginFrame.dispose();
-			new Client(getUserName());	
-		}
+		loginFrame.setVisible(true);	
 	}
 
 	@Override
 	public void windowOpened(WindowEvent e) {}
 	@Override
 	public void windowClosing(WindowEvent e) {
+		
 		System.exit(0);
 	}
 	@Override
@@ -77,13 +83,5 @@ public class LoginWindow extends Frame implements WindowListener, ActionListener
 	public void windowActivated(WindowEvent e) {}
 	@Override
 	public void windowDeactivated(WindowEvent e) {}
-
-	public void setUserName(String name) {
-		userName = name;
-	}
-	public String getUserName()
-	{
-		return userName;
-	}
 
 }

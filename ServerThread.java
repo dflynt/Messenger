@@ -14,6 +14,8 @@ public class ServerThread extends Thread {
 	public ServerThread(Server mainServer, Socket clientSocket) {
 		this.server = mainServer;
 		this.socket = clientSocket;
+
+		String lineInput = "";
 	}
 
 	public void run() {
@@ -21,6 +23,7 @@ public class ServerThread extends Thread {
 		try {
 			input = new DataInputStream(socket.getInputStream());
 			output = new DataOutputStream(socket.getOutputStream());
+			
 		} catch (IOException e) {
 			System.out.println("Input/Output data stream unavailable.");
 		}
@@ -28,27 +31,14 @@ public class ServerThread extends Thread {
 		String receiver = "";
 		try {
 			clientName = input.readUTF();
-			server.addClient(this);
+			if(clientName != null)
+			{
+				server.addClient(this);
+			}
 			hasName = true;
 			while (hasName) {
 				lineInput = input.readUTF();
 				switch (lineInput) {
-				case "/list":
-					output.writeUTF("Number of Clients " + server.getNumClients());
-					ArrayList<ServerThread> clients = server.getClients();
-					for (ServerThread thread : clients) {
-						if(thread.isAlive())
-							{
-								output.writeUTF(thread.getClientName());
-								output.flush();
-							}	
-					}
-					break;
-
-				case "/myname":
-					output.writeUTF(clientName);
-					output.flush();
-					break;
 				case "/disconnect":
 					try {
 						server.removeClient(this);
@@ -59,16 +49,8 @@ public class ServerThread extends Thread {
 						e.printStackTrace();
 					}
 					break;
-
-				case "/newchat":
-					output.writeUTF("Enter the user: ");
-					receiver = input.readUTF();
-					if (!server.containsClient(receiver)) {
-						output.writeUTF("User is not connected to the server!");
-					}
-					break;
 				default:
-					sendMessage(lineInput, receiver);
+					sendMessage(lineInput);
 				}
 			}
 		} catch (IOException e) {
@@ -79,9 +61,9 @@ public class ServerThread extends Thread {
 		}
 	}
 
-	public void sendMessage(String message, String receiver) {
+	public void sendMessage(String message) {
 		String sendMessage = getClientName() + ": " + message;
-		server.sendMessage(sendMessage, receiver);
+		server.sendMessage(sendMessage);
 	}
 
 	public void printMessage(String message) {

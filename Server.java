@@ -21,22 +21,26 @@ public class Server {
 		}
 	}
 
-	public void sendMessage(String message, String client) {
-		if(clients.size() == 1)
-		{
-			clients.get(0).printMessage("You're the only one connected.");
-			return;
-		}
+	public void sendMessage(String message) {
 		for (ServerThread thread : clients) {
-			if (thread.getClientName().equals(client)) {
-				thread.printMessage(message);
-			}
+			thread.printMessage(message);
+			
 		}
 	}
 
 	public synchronized void addClient(ServerThread thread) {
 		clients.add(thread);
 		System.out.println(thread.getClientName() + " has joined the server.");
+		
+		//sends a message to update the online users list
+		//for each user in the clients array, loop through the array and send every name connected. repeat
+		for(ServerThread user : clients)
+		{
+			for(ServerThread users : clients)
+			{
+				users.printMessage("user: " + user.getClientName());
+			}
+		}
 	}
 
 	public int getNumClients() {
@@ -62,5 +66,15 @@ public class Server {
 	public void removeClient(ServerThread thread)
 	{
 		clients.remove(thread);
+		
+		//sends a message to update the online users list
+		for(ServerThread user : clients)
+		{
+			for(ServerThread users : clients)
+			{
+				user.printMessage("ruser: " + user.getClientName());
+			}
+		}
+		
 	}
 }
