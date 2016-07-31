@@ -1,5 +1,4 @@
 import java.net.*;
-import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -21,11 +20,11 @@ import java.io.*;
 
 //Notes while making this and what I learned
 /*
-* buttons and text fields are better used with action listeners created like what's below
-* because it allows listener methods to be more component-specific
+* buttons and text fields are better used with action listeners created in a fashion seen below
+* it allows listener methods to be more component-specific
 * 
-* 
-* 
+* using getText() on a textfield, even if someone hasn't typed anything, still returns a string equal to ""
+* to effectively check if someone has actually typed something, use if(!textField.getText().equals(""))
 * 
 */
 public class Client{
@@ -41,7 +40,7 @@ public class Client{
 
 	public Client(String userName) {
 		this.username = userName;
-		String servName = "71.76.225.88";
+		String servName = "localhost";
 		int portNum = 3033;
 		try {
 			Socket sock = new Socket(servName, portNum);
@@ -51,7 +50,6 @@ public class Client{
 			//the first message sent after the client is connected to the server
 			//is the username that the user chose there, the following line is required
 			dout.writeUTF(userName);
-			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
 			chatFrame = new JFrame("Chat");
 			chatPane = new JPanel(new GridBagLayout());
@@ -163,10 +161,8 @@ public class Client{
 		// messages that contain "user: " are designated messages only meant to
 		// be sent to the online users TextArea to show who is connected to the
 		// server
-		else if (message.contains("user: ")) {
-			String name = message.substring(6);
-			System.out.println(name);
-			
+		else if (message.substring(0,5).equals("user:")) {
+			String name = message.substring(5);			
 			SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
 					if(!connectedUsersTA.getText().contains(name))
@@ -183,27 +179,23 @@ public class Client{
 		// disconnected
 		// Drawback to this: if there were multiple users with the same name,
 		// they would all be removed
-		else if (message.contains("ruser: ")) {
-			String splitmessage = message.substring(7);
-
+		else if (message.substring(0, 6).equals("ruser:")) {
+			String removeUser = message.substring(6);
 			String[] onlineUsers = connectedUsersTA.getText().split("\n");
-			for(String name : connectedUsersTA.getText().split("\n"))
-			{
-				System.out.println(name.trim());
-			}
-			// finds string that matches the variable message
-			for (int i = 0; i < onlineUsers.length; i++) {
-				if (onlineUsers[i].equals(splitmessage)) {
+			
+			// finds string that matches the variable 'message'
+			for (int i = 2; i < onlineUsers.length; i++) {
+				if (onlineUsers[i].equals(removeUser)) {
 					// remove it from the array
 					onlineUsers[i] = null;
 				}
 			}
-
-			connectedUsersTA.setText(null);
+			
+			connectedUsersTA.setText( "Users Online\n ----------\n");
 			// adds the new list, without the removed user, to the textArea
-			for (int k = 0; k < onlineUsers.length; k++) {
+			for (int k = 2; k < onlineUsers.length; k++) {
 				if (onlineUsers[k] != null) {
-					connectedUsersTA.append(onlineUsers[k].trim());
+					connectedUsersTA.append(onlineUsers[k]+"\n");
 				}
 			}
 		} else {
@@ -216,10 +208,4 @@ public class Client{
 			}
 		}
 	}
-	
-	public void closeOperation(JFrame frame)
-	{
-		
-	}
-
 }

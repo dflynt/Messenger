@@ -38,7 +38,7 @@ public class Server {
 		{
 			for(ServerThread users : clients)
 			{
-				users.printMessage("user: " + user.getClientName());
+				users.printMessage("user:" + user.getClientName());
 			}
 		}
 	}
@@ -66,15 +66,23 @@ public class Server {
 	public void removeClient(ServerThread thread)
 	{
 		clients.remove(thread);
-		
-		//sends a message to update the online users list
-		for(ServerThread user : clients)
+		for(ServerThread users : clients)
 		{
-			for(ServerThread users : clients)
-			{
-				user.printMessage("ruser: " + user.getClientName());
-			}
+			//send the name of THREAD that's being disconnected so the online users textArea
+			//can be updated PROPERLY
+			users.printMessage("ruser:" + thread.getClientName());
 		}
+		
+		//This is left to remind me that I should always think things through
+		//How I thought this was correct in the first place will always be a mystery to me
+//		for(ServerThread user : clients)
+//		{
+//			for(ServerThread users : clients)
+//			{
+//				users.printMessage("ruser:" + user.getClientName());
+//			}
+//		}
+
 		
 	}
 }

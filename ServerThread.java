@@ -1,5 +1,4 @@
 import java.net.*;
-import java.util.ArrayList;
 import java.io.*;
 
 public class ServerThread extends Thread {
@@ -14,8 +13,6 @@ public class ServerThread extends Thread {
 	public ServerThread(Server mainServer, Socket clientSocket) {
 		this.server = mainServer;
 		this.socket = clientSocket;
-
-		String lineInput = "";
 	}
 
 	public void run() {
@@ -28,7 +25,6 @@ public class ServerThread extends Thread {
 			System.out.println("Input/Output data stream unavailable.");
 		}
 
-		String receiver = "";
 		try {
 			clientName = input.readUTF();
 			if(clientName != null)
