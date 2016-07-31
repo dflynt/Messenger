@@ -198,8 +198,7 @@ public class Client{
 					connectedUsersTA.append(onlineUsers[k]+"\n");
 				}
 			}
-		} else {
-			if (message != null) {
+		} else if (message != null) {
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
 						receivedTA.append(message + "\n\n");
@@ -208,4 +207,4 @@ public class Client{
 			}
 		}
 	}
-}
+
