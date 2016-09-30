@@ -72,16 +72,15 @@ public class Server {
 			users.printMessage("ruser:" + thread.getClientName());
 		}
 		
-		//This is left to remind me that I should always think things through
-		//How I thought this was correct in the first place will always be a mystery to me
-//		for(ServerThread user : clients)
-//		{
-//			for(ServerThread users : clients)
-//			{
-//				users.printMessage("ruser:" + user.getClientName());
-//			}
-//		}
-
-		
+		/**This is left to remind me that I should always think things through
+		*How I thought this was correct in the first place will always be a mystery to me
+		*for(ServerThread user : clients)
+		*{
+		*	for(ServerThread users : clients)
+		*	{
+		*		users.printMessage("ruser:" + user.getClientName());
+		*	}
+		*}
+		**/
 	}
 }
