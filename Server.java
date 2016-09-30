@@ -23,8 +23,7 @@ public class Server {
 
 	public void sendMessage(String message) {
 		for (ServerThread thread : clients) {
-			thread.printMessage(message);
-			
+			thread.printMessage(message);	
 		}
 	}
 
